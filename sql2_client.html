@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset = "UTF-8">
+        <title>sql2</title>
+        <style>
+            table,tr,th,td{
+                border:1px solid#000000;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            window.onload = function(){
+                var req = new XMLHttpRequest();
+                req.onload = function(){
+                    json_obj = JSON.parse(req.responseText);
+                    console.log(json_obj);
+
+                    var table = document.createElement("table");
+                    var tableBody = document.createElement("tbody");
+                    var a = ['name','address','phone','email'];
+                    var tr = document.createElement("tr");
+                    for(var k=0; k<4; k++){
+                        var th = document.createElement("th");
+                        var thText = document.createTextNode(a[k]);
+                        th.appendChild(thText);
+                        tr.appendChild(th);
+                    }
+                    tableBody.appendChild(tr);
+                    table.appendChild(tableBody);
+
+                    for(var j = 0; j<Object.keys(json_obj).length; j++){
+                        var tr = document.createElement("tr");
+
+                        
+                        var td = document.createElement("td");
+                        var tdText = document.createTextNode(json_obj[j].name);
+                        td.appendChild(tdText);
+                        tr.appendChild(td);
+
+                        var td = document.createElement("td");
+                        var tdText = document.createTextNode(json_obj[j].address);
+                        td.appendChild(tdText);
+                        tr.appendChild(td);
+                        var td = document.createElement("td");
+                        var tdText = document.createTextNode(json_obj[j].phone);
+                        td.appendChild(tdText);
+                        tr.appendChild(td);
+                        var td = document.createElement("td");
+                        var tdText = document.createTextNode(json_obj[j].email);
+                        td.appendChild(tdText);
+                        tr.appendChild(td);
+                        tableBody.appendChild(tr);
+                    }
+                table.appendChild(tableBody);
+                document.getElementById('maintable').appendChild(table);
+                }
+                req.open('GET','./sql2_server.php',true);
+                req.send(null);
+            }
+        </script>
+        <div id="maintable"></div>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset = "UTF-8">
+        <title>js3</title>
+    </head>
+    <body>
+        <input id="checkbox" name="checkbox" type="checkbox">
+        <input id="button1" name="button1" type="button" value="切替"
+        onclick="boxchecked();"/>
+        <script>
+            function boxchecked(){
+                if(document.getElementById("checkbox").checked == false){
+                    document.getElementById("checkbox").checked = true;
+                }else{
+                    document.getElementById("checkbox").checked = false;
+                }
+            }
+        </script>
+    </body>
+</html>

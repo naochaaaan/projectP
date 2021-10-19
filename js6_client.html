@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset = "UTF-8">
+        <title>js6</title>
+    </head>
+    <body>
+        <input id="Textbox" name="Textbox" type="text">
+        <input id="button1" name="button1" type="button" value="リクエスト"
+        onclick="Request()"/>
+        <script>
+            function Request(){
+                var req = new XMLHttpRequest();
+                req.onload = function(){
+                    alert(req.responseText);
+                }
+
+                var uri = document.getElementById('Textbox').value;
+                console.log(uri);
+                var res = encodeURIComponent(uri);
+                req.open('POST','./js6_server.php',true);
+                req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+                req.send("Textbox=" + res);
+            }
+        </script>
+    </body>
+</html>

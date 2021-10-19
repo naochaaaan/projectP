@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset = "UTF-8">
+        <title>sql4</title>
+        <style>
+            table,tr,th,td{
+                border:1px solid#000000;
+            }
+        </style>
+    </head>
+    <body>
+        <form action="sql4_server.php" method="POST">
+            <input type="text" id="name">
+            <input type="text" id="address">
+            <input type="text" id="phone">
+            <input type="text" id="email">
+            <input type="button" id="button" value="送信"><p>
+            <input type="text" id="search">
+            <input type="button" id="searchButton" value="検索">
+        </form>
+        <script>
+            window.onload = function(){
+                var req = new XMLHttpRequest();
+                req.onload = function(){
+                    json_obj = JSON.parse(req.responseText);
+                    console.log(json_obj);
+                    var table = document.createElement("table");
+                    table.id = "addresses";
+                    var tableBody = document.createElement("tbody");
+                    var a = ['name','address','phone','email'];
+                    var tr = document.createElement("tr");
+                    for(var k=0; k<4; k++){
+                        var th = document.createElement("th");
+                        var thText = document.createTextNode(a[k]);
+                        th.appendChild(thText);
+                        tr.appendChild(th);
+                    }
+                    tableBody.appendChild(tr);
+                    table.appendChild(tableBody);
+                    for(var j = 0; j<Object.keys(json_obj).length; j++){
+                        var tr = document.createElement("tr");
+                        
+                        var td = document.createElement("td");
+                        var tdText = document.createTextNode(json_obj[j].name);
+                        td.appendChild(tdText);
+                        tr.appendChild(td);
+                        var td = document.createElement("td");
+                        var tdText = document.createTextNode(json_obj[j].address);
+                        td.appendChild(tdText);
+                        tr.appendChild(td);
+                        var td = document.createElement("td");
+                        var tdText = document.createTextNode(json_obj[j].phone);
+                        td.appendChild(tdText);
+                        tr.appendChild(td);
+                        var td = document.createElement("td");
+                        var tdText = document.createTextNode(json_obj[j].email);
+                        td.appendChild(tdText);
+                        tr.appendChild(td);
+                        tableBody.appendChild(tr);
+                    }
+                table.appendChild(tableBody);
+                document.getElementById('maintable').appendChild(table);
+                }
+                req.open('GET','./sql4_server.php?post=get',true);
+                req.send(null);
+            }
+            document.getElementById('button').addEventListener('click', () => {
+                var data = {
+                    post : "add",
+                    name : document.getElementById('name').value,
+                    address : document.getElementById('address').value,
+                    phone : document.getElementById('phone').value,
+                    email : document.getElementById('email').value
+                }
+                var req = new XMLHttpRequest();
+                req.open('POST','./sql4_server.php');
+                req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+                var json = JSON.stringify(data);
+                req.send(json);
+                req.onload = function(){
+                    location.reload(10);
+                }
+            });
+            
+            document.getElementById('searchButton').addEventListener('click', () => {
+                var f = document.getElementById("addresses");
+                while(f.rows[1])f.deleteRow(-1);
+                var data = {
+                    post : "search",
+                    word : document.getElementById('search').value
+                }
+                var req = new XMLHttpRequest();
+                req.open('POST','./sql4_server.php');
+                req.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+                var json = JSON.stringify(data);
+                req.send(json);
+                req.onload = function(){
+                    in_obj = JSON.parse(req.responseText);
+                    for(var j = 0; j<Object.keys(in_obj).length; j++){
+                        var table = document.getElementById("addresses");
+                        var row = table.insertRow(-1);
+                        var name = row.insertCell(-1);
+                        var address = row.insertCell(-1);
+                        var phone = row.insertCell(-1);
+                        var email = row.insertCell(-1);
+                        name.innerText = in_obj[j].name;
+                        address.innerText = in_obj[j].address;
+                        phone.innerText = in_obj[j].phone;
+                        email.innerText = in_obj[j].email;
+                    }
+                }
+            });
+        </script>
+        <div id="maintable"></div>
+    </body>
+</html>

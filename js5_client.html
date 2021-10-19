@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset = "UTF-8">
+        <title>js5</title>
+    </head>
+    <body>
+        <input id="Textbox" name="Textbox" type="Textbox">
+        <input id="button1" name="button1" type="button" value="リクエスト"
+        onclick="Request()"/>
+        <script>
+            function Request(){
+                var req = new XMLHttpRequest();
+                req.onload = function(){
+                    alert(req.responseText);
+                }
+
+                req.open('GET','./js5_server.php',true);
+                req.send(null);
+            }
+        </script>
+    </body>
+</html>

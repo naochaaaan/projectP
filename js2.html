@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset = "UTF-8">
+        <title>js2</title>
+    </head>
+    <body>
+            <input id="textbox" name="textbox" type="text">
+            <input id="button" name="button" type="button" value="表示">
+        <script>
+            var btn = document.getElementById("button");
+            btn.addEventListener('click',function(){
+                message();
+            });
+
+            function message(){
+                var str = document.getElementById("textbox").value;
+                alert(str);
+            }
+        </script> 
+    </body>
+</html>
